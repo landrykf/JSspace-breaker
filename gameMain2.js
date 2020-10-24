@@ -15,6 +15,7 @@ const totalScore = document.querySelector('#totalScore');
 
 let bullets = [];
 let enemies=[];  
+let smallEnemies =[];
 let particles = [];
 let shield = [];
 
@@ -360,14 +361,15 @@ function updateCountdown() {
 
 function init(){//reinitialise les paramètres du jeu
 
-let text = ['H','E','L','L','O','','M','Y','','N','A','M','E','','i','S',"","L",'A','N','D','R','Y','','K','O','F','F','I'];
-let restText = ` php and project quality in a company environment. Feel free to take a look at my latest projects on the web portfolio page.`
+let text = ['S','A','L','U','T','','J','E','','S','U','I','S','',"L",'A','N','D','R','Y','','K','O','F','F','I'];
+let restText = ` Je suis développeur web en formation chez simplon.co. J'apprends le javascript, le php et la qualité projets dans un environnement d'entreprise. N'hésitez pas à consulter mes derniers projets sur la page de mon portfolio.`
 
-let smallText =['I','', 'a','m','','a','','w','e','b','', 'd','e','v','e','l','o','p','e','r','', 'i','n','', 'f','o','r','m','a','t','i','o','n','', 'a','t','', 's','i','m','p','l','o','n','.','c','o','.', 'I',"'",'m', 'l','e','a','r','n','i','n','g',',', 'j','a','v','a','s','c','r','i','p','t',',',]
+let smallText =['J','e','', 's','u','i','s','', 'd','é','v','e','l','o','p','p','e','u','r','','w','e','b','', 'e','n','', 'f','o','r','m','a','t','i','o','n','', 'c','h','e','z','', 'S','i','m','p','l','o','n.','c','o.']
 
     hero = new Hero(canvas.width/2,canvas.height - 69, 64, 64)
     bullets = [];
     enemies = [];
+    smallEnemies = [];
     particles = [];
     score = 0;
     life = 10;
@@ -375,6 +377,7 @@ let smallText =['I','', 'a','m','','a','','w','e','b','', 'd','e','v','e','l','o
     totalScore.innerHTML = score;
     lifeEL.innerHTML = life;
     startGameButton.innerHTML = 'PLAY AGAIN' ;
+    let gap=0;
     
     for (let i = 0; i < text.length; i++){
         let positionX = 170.5;
@@ -384,10 +387,14 @@ let smallText =['I','', 'a','m','','a','','w','e','b','', 'd','e','v','e','l','o
     }
 
     for (let i = 0; i < smallText.length; i++){
-        let positionX = 100.5;
+        let positionX = 35.5;
         let positionY = 350;
-
-        enemies.push( (new SmallEnemy(smallText[i],positionX += i*16,positionY,ctx.measureText(smallText[i]).width)));
+        if (smallText[i]=='i' || smallText[i]=='l'|| smallText[i]==''||smallText[i]=='o'||smallText[i]=='m'|| smallText[i]=='s') {
+        gap += 10
+        }else{
+         gap +=16
+        }
+        smallEnemies.push( (new SmallEnemy(smallText[i],positionX +=gap,positionY,ctx.measureText(smallText[i]).width)));
     }
 
 }
@@ -399,6 +406,7 @@ let hero = new Hero(canvas.width/2,canvas.height - 69, 64, 64);
 function Update() {
 
     animationId = requestAnimationFrame(Update);
+    // ctx.fillStyle = 'rgba(0,0,0,0.1)'
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     hero.update();
 
@@ -440,6 +448,10 @@ function Update() {
     for (let j = 0; j < enemies.length;j++){    
         enemies[j].update();
     }
+    for (let j = 0; j < smallEnemies.length;j++){    
+        smallEnemies[j].update();
+    }
+
           
     for(let i = 0; i < bullets.length; i++){
         bullets[i].update();
@@ -461,10 +473,37 @@ function Update() {
                 bullets.splice(i,1);
                 
                 //déployer les particules a la collision Balle/Lettre
-                for (let i = 0; i < 8; i++) {
+                for (let i = 0; i < 3; i++) {
                     if (enemies[j] != undefined) {
-                        particles.push(new Particle(enemies[j].x, enemies[j].y, 3, 'red',{x:Math.random() *3,
-                            y: Math.random() *-3})) 
+                        particles.push(new Particle(enemies[j].x, enemies[j].y, 3 , 'red',{x:Math.random() *3,
+                            y: Math.random() *-4})) 
+                          
+                    }
+                    
+                }
+
+              
+            }
+          
+        }
+
+        for (let j = 0; j < smallEnemies.length; j++){    
+            if ( smallEnemies[j] !='' && bullets[i] != undefined && smallEnemies[j] != undefined && bullets[i].y < smallEnemies[j].y && bullets[i].x > smallEnemies[j].x - smallEnemies[j].width  && bullets[i].x < smallEnemies[j].x + smallEnemies[j].width ) {
+                //score
+                score += 5;
+                scoreEl.innerHTML = score
+                
+                setTimeout(() => {  //Supprimer l'enemie avec un léger retardement après la collision 
+                smallEnemies.splice(j,1);
+                }, 0);
+
+                bullets.splice(i,1);
+                
+                //déployer les particules a la collision Balle/Lettre
+                for (let i = 0; i < 2; i++) {
+                    if (smallEnemies[j] != undefined) {
+                        particles.push(new Particle(smallEnemies[j].x, smallEnemies[j].y , 1.8 , '#2A2A2A',{x:Math.random()*2  ,
+                            y: Math.random()*3  })) 
                           
                     }
                     
