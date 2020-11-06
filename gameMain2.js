@@ -177,7 +177,7 @@ class Enemy{
 
     
         this.post = function () {
-            ctx.fillStyle = '#CACACA'
+            ctx.fillStyle = '#000000'
             ctx.font = 'bold 20px Montserrat, sans-serif';
             let textWidth = ctx.measureText(text).width;
             ctx.fillText(this.text,this.x , this.y,textWidth);
@@ -214,7 +214,7 @@ class SmallEnemy{
 
     
         this.post = function () {
-            ctx.fillStyle = '#878787'
+            ctx.fillStyle = 'black'
             ctx.font = 'bold 15px Montserrat, sans-serif';
             let textWidth = ctx.measureText(text).width;
             ctx.fillText(this.text,this.x , this.y,textWidth);
@@ -364,14 +364,12 @@ function updateCountdown() {
 
 function init(){//reinitialise les paramètres du jeu
 
-let text = ['S','A','L','U','T','','J','E','','S','U','I','S','',"L",'A','N','D','R','Y','','K','O','F','F','I'];
-let restText = ` Je suis développeur web en formation chez simplon.co. J'apprends le javascript, le php et la qualité projets dans un environnement d'entreprise. N'hésitez pas à consulter mes derniers projets sur la page de mon portfolio.`
+    let text = 'SALUT JE SUIS LANDRY KOFFI'
 
-let smallText =['J','e','', 's','u','i','s','', 'd','é','v','e','l','o','p','p','e','u','r','','w','e','b','', 'e','n','', 'f','o','r','m','a','t','i','o','n','', 'c','h','e','z','', 'S','i','m','p','l','o','n.','c','o.']
-let smallTextLine2 = ['J\'','a','p','p','r','e','n','d','s','', 'l','e', '' ,'j','a','v','a','s','c','r','i','p','t,','', 'l','e','', 'p','h','p','', 'e','t','', 'l','a','', 'q','u','a','l','i','t','é','', 'p','r','o','j','e','t','s']
-let smallTextLine3 =['N\'','h','é','s','i','t','e','z','', 'p','a','s','', 'à', '', 'c','o','n','s','u','l','t','e','r','', 'm','e','s','', 'd','e','r','n','i','e','r','s','', 'p','r','o','j','e','t','s']
-
-let smallTextLine4 =['s','u','r', '', 'l','a','', 'p','a','g','e','', 'd','e','', 'm','o','n','', 'p','o','r','t','f','o','l','i','o.']
+    let smallText = 'Je suis developpeur web en formation chez simplon.co.'
+    let smallTextLine2 = 'J\'apprend le Javascript, le php et la qualité projet'
+    let smallTextLine3 ='N\'hésitez pas à consulter mes derniers projets'
+    let smallTextLine4 = 'sur la page de mon portfolio'
 
     hero = new Hero(canvas.width/2,canvas.height - 69, 64, 64)
     bullets = [];
